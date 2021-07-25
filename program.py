@@ -1,12 +1,13 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
+
+
 root = Tk()
 root.geometry("1000x600")
-root.pack_propagate(False)
 root.resizable(True,True)
 root.title("DASHBOARD")
-root.configure(background='black')
+root.configure(background='gray')
 
 fr = tk.Label(root,text="NAME")
 fr.place(rely=0.3,relx=0.5)
