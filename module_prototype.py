@@ -1,5 +1,6 @@
 from tkinter import *
 from PIL import ImageTk, Image
+from tkinter import filedialog
 
 root = Tk()
 keywords=["key1","key2","key3","key4","key5"]
@@ -10,16 +11,37 @@ font_custom="Arial 20 bold"
 blue_bg="#4472C4"
 green_bg="#70AD47"
 count=0
+answers=[]
 
-def check():
+def team_check():
+    if len(tn.get()):
+        switch_frame(start,finish)
+
+def check(v,b):
+    
     global count
-    #if est1.get() == "" or est2.get()=="":
-    #    print("empty")
-    if est1.get() in keywords:
-        keywords.remove(est1.get())
+    if v.get() in keywords:
+        answers.append(v.get())
+        keywords.remove(v.get())
         count+=1
         print(keywords)
+        b.config(text="VALIDATED",bg=green_bg)
+    if len(keywords) == 2:
+        switch_frame(finish,thr)
+    if len(keywords) == 0:
+        save_file()
 
+def switch_frame (old,new):
+    old.pack_forget()
+    new.pack(fill="both", expand=True)
+    
+def save_file():
+    tf = open('info.txt',"a")
+    tf.write("\n"+tn.get()+" - ["+answers[0]+", "+answers[1]+", "+answers[2]+", "+answers[3]+", "+answers[4]+"]")
+   
+    tf.close()
+
+    
 
 root.geometry("1000x600")
 root.resizable(True,True)
@@ -29,22 +51,25 @@ root.title("DASHBOARD")
 start = Frame(root,bg=blue_bg, height=600, width=1000)
 start.pack(fill="both", expand=True)
 
-img=ImageTk.PhotoImage(Image.open("kali.jpg"))
+img=ImageTk.PhotoImage(Image.open("kali.png"))
 imgl = Label(start, image=img)
 imgl.place(x=0, y=0, relwidth=1, relheight=1)
 
 fr = Label(start,text="GLOBAL WATCHTOWER \n SV 21 INTERFACE",font = font_title,bg=blue_bg)
 fr.place(rely=0.1,relx=0.25,relwidth=0.55, relheight=0.3)
 
-e1 = Entry(start, text = 'ENTER TEAM NAME',bg=green_bg)
+tn = StringVar()
+e1 = Entry(start, text = 'ENTER TEAM NAME',bg=green_bg, textvariable=tn)
 e1.place(relx=0.1,rely=0.5, relwidth=0.8, relheight=0.15)
 
-button = Button(start,text="Enter",bg="gray",font = font_basic,command=lambda: switch_frame(start,finish))
+button = Button(start,text="Enter",bg="gray",font = font_basic,command=team_check)
 button.place(rely=0.65,relx=0.1, relwidth=0.8, relheight=0.15)
+
 
 #CREATE A SECOND PAGE
 finish = Frame(root,bg=blue_bg, height=600, width=1000)
-
+imgs = Label(finish, image=img)
+imgs.place(x=0, y=0, relwidth=1, relheight=1)
 ts = Label(finish,text=title,font = font_basic,bg=blue_bg)
 ts.place(rely=0.05,relx=0.25,relwidth=0.55, relheight=0.1)
 ts2 = Label(finish,text="TO LOG IN YOU MUST ENTER 3 VALID KEYWORDS\nYOU CAN MAKE AS MANY ATTEMPTS AS YOU WISH",font = font_basic,bg=blue_bg)
@@ -59,16 +84,17 @@ es2 = Entry(finish, text = 'WORD 2',bg=green_bg, textvariable=est2)
 es2.place(relx=0.1,rely=0.55, relwidth=0.45, relheight=0.1)
 es3 = Entry(finish, text = 'WORD 3',bg=green_bg, textvariable=est3)
 es3.place(relx=0.1,rely=0.7, relwidth=0.45, relheight=0.1)
-bs1 = Button(finish,text="VALIDATE",bg="gray",font = font_basic,command=check)
-bs1.place(relx=0.6,rely=0.4, relwidth=0.2, relheight=0.1)
-bs2 = Button(finish,text="VALIDATE", command="",bg="gray",font = font_basic)
-bs2.place(relx=0.6,rely=0.55,relwidth=0.2, relheight=0.1)
-bs3 = Button(finish,text="VALIDATE",bg="gray",font = font_basic,command=lambda: switch_frame(finish,thr))
-bs3.place(relx=0.6,rely=0.7,relwidth=0.2, relheight=0.1)
+b21 = Button(finish,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(est1,b21))
+b21.place(relx=0.6,rely=0.4, relwidth=0.2, relheight=0.1)
+b22 = Button(finish,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(est2,b22))
+b22.place(relx=0.6,rely=0.55,relwidth=0.2, relheight=0.1)
+b23 = Button(finish,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(est3,b23))
+b23.place(relx=0.6,rely=0.7,relwidth=0.2, relheight=0.1)
 
 #CREATE A THIRD PAGE
 thr = Frame(root,bg=blue_bg, height=600, width=1000)
-
+imgt = Label(thr, image=img)
+imgt.place(x=0, y=0, relwidth=1, relheight=1)
 tt = Label(thr,text=title,font = font_basic,bg=blue_bg)
 tt.place(rely=0.05,relx=0.25,relwidth=0.55, relheight=0.1)
 
@@ -96,24 +122,31 @@ bt3.place(relx=0,rely=0,relwidth=1, relheight=0.15)
 
 #CREATE A LAUNCH PAGE
 launch = Frame(root,bg=blue_bg, height=600, width=1000)
-
+imgla = Label(launch, image=img)
+imgla.place(x=0, y=0, relwidth=1, relheight=1)
 tl = Label(launch,text=title,font = font_basic,bg=blue_bg)
 tl.place(rely=0.05,relx=0.25,relwidth=0.55, relheight=0.1)
 tl2 = Label(launch,text="DESTRUCTION OF THE VIRUS REQUIRES THE USE OF THE FINAL TWO KEYWORDS",font = font_basic,bg=blue_bg)
 tl2.place(relx=0.0,rely=0.25,relwidth=1, relheight=0.1)
 
-el1 = Entry(launch, text = 'WORD 1',bg=green_bg).place(relx=0.1,rely=0.4, relwidth=0.45, relheight=0.1)
-el2 = Entry(launch, text = 'WORD 2',bg=green_bg).place(relx=0.1,rely=0.55, relwidth=0.45, relheight=0.1)
+esl1 = StringVar()
+esl2 = StringVar()
 
-bl1 = Button(launch,text="VALIDATE", command="",bg="gray",font = font_basic)
+el1 = Entry(launch, text = 'WORD 1',bg=green_bg, textvariable=esl1)
+el1.place(relx=0.1,rely=0.4, relwidth=0.45, relheight=0.1)
+el2 = Entry(launch, text = 'WORD 2',bg=green_bg, textvariable=esl2)
+el2.place(relx=0.1,rely=0.55, relwidth=0.45, relheight=0.1)
+
+bl1 = Button(launch,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(esl1,bl1))
 bl1.place(relx=0.6,rely=0.4, relwidth=0.2, relheight=0.1)
-bl2 = Button(launch,text="VALIDATE", command="",bg="gray",font = font_basic)
+bl2 = Button(launch,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(esl2,bl2))
 bl2.place(relx=0.6,rely=0.55,relwidth=0.2, relheight=0.1)
 
 
 #CREATE A STALL PAGE
 stall = Frame(root,bg=blue_bg, height=600, width=1000)
-
+imgst = Label(stall, image=img)
+imgst.place(x=0, y=0, relwidth=1, relheight=1)
 tst = Label(stall,text=title,font = font_basic,bg=blue_bg)
 tst.place(rely=0.05,relx=0.25,relwidth=0.55, relheight=0.1)
 ts1 = Label(stall,text="VIRUS RELEASE SUSPENDED FOR 5 DAYS!",font = font_basic,bg=blue_bg)
@@ -129,11 +162,6 @@ bs2 = Button(stall,text="VALIDATE", command="",bg="gray",font = font_basic)
 bs2.place(relx=0.6,rely=0.55,relwidth=0.2, relheight=0.1)
 
 
-
-
-def switch_frame (old,new):
-    old.pack_forget()
-    new.pack(fill="both", expand=True)
 
 
 
