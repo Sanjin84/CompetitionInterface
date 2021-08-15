@@ -10,8 +10,9 @@ font_title_s="Verdana 31 bold"
 font_basic="Verdana 15 bold"
 font_basic_s="Verdana 16 bold"
 font_custom="Arial 20 bold"
-blue_bg="#4472C4"
-green_bg="#70AD47"
+BOX_COLOR="#4472C4"
+BUTTON_COLOR="#70AD47"
+TEXT_COLOR = 'FFFFFF'
 score=0
 answers=[]
 
