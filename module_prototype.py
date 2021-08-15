@@ -6,30 +6,32 @@ root = Tk()
 keywords=["key1","key2","key3","key4","key5"]
 title="GLOBAL WATCHTOWER SV 21 INTERFACE"
 font_title="Verdana 30 bold"
+font_title_s="Verdana 31 bold"
 font_basic="Verdana 15 bold"
+font_basic_s="Verdana 16 bold"
 font_custom="Arial 20 bold"
 blue_bg="#4472C4"
 green_bg="#70AD47"
-count=0
+score=0
 answers=[]
 
 def team_check():
     if len(tn.get()):
-        switch_frame(start,finish)
+        switch_frame(cv1,cv2)
 
 def check(v,b):
     
-    global count
+    global score
     if v.get() in keywords:
         answers.append(v.get())
         keywords.remove(v.get())
-        count+=1
+        score+=10
         print(keywords)
         b.config(text="VALIDATED",bg=green_bg)
     if len(keywords) == 2:
-        switch_frame(finish,thr)
-    if len(keywords) == 0:
-        save_file()
+        switch_frame(cv2,cv3)
+    #if len(keywords) == 0:
+        #save_file()
 
 def switch_frame (old,new):
     old.pack_forget()
@@ -41,128 +43,140 @@ def save_file():
    
     tf.close()
 
+def stroke_text(canv,x, y, text,stroke_font,text_font):
+    canv.create_text(x, y, text=text, font=stroke_font, fill='black')
+    canv.create_text(x, y, text=text, font=text_font, fill='white')
     
 
 root.geometry("1000x600")
-root.resizable(True,True)
 root.title("DASHBOARD")
 
 #CREATE A START PAGE
-start = Frame(root,bg=blue_bg, height=600, width=1000)
-start.pack(fill="both", expand=True)
+cv1 = Canvas( root,width = 1000,height = 600)
 
-img=ImageTk.PhotoImage(Image.open("kali.png"))
-imgl = Label(start, image=img)
-imgl.place(x=0, y=0, relwidth=1, relheight=1)
+img=ImageTk.PhotoImage(Image.open("background.png"))
+cv1.create_image( 0, 0, image = img, anchor = "nw")
 
-fr = Label(start,text="GLOBAL WATCHTOWER \n SV 21 INTERFACE",font = font_title,bg=blue_bg)
-fr.place(rely=0.1,relx=0.25,relwidth=0.55, relheight=0.3)
+stroke_text(cv1,500, 100, 'GLOBAL WATCHTOWER \n    SV 21 INTERFACE',font_title_s,font_title)
+stroke_text(cv1,500, 220, 'ENTER TEAM NAME',font_basic_s,font_basic)
+
 
 tn = StringVar()
-e1 = Entry(start, text = 'ENTER TEAM NAME',bg=green_bg, textvariable=tn)
-e1.place(relx=0.1,rely=0.5, relwidth=0.8, relheight=0.15)
+e1 = Entry(cv1, text = 'ENTER TEAM NAME', textvariable=tn)
+cv1.create_window(500,300,window=e1,height=80, width=500)
 
-button = Button(start,text="Enter",bg="gray",font = font_basic,command=team_check)
+button = Button(cv1,text="Enter",bg="gray",font = font_basic,command=team_check)
 button.place(rely=0.65,relx=0.1, relwidth=0.8, relheight=0.15)
+cv1.create_window(500,400,window=button,height=50, width=400)
+cv1.pack(fill = "both", expand = True)
 
 
 #CREATE A SECOND PAGE
-finish = Frame(root,bg=blue_bg, height=600, width=1000)
-imgs = Label(finish, image=img)
-imgs.place(x=0, y=0, relwidth=1, relheight=1)
-ts = Label(finish,text=title,font = font_basic,bg=blue_bg)
-ts.place(rely=0.05,relx=0.25,relwidth=0.55, relheight=0.1)
-ts2 = Label(finish,text="TO LOG IN YOU MUST ENTER 3 VALID KEYWORDS\nYOU CAN MAKE AS MANY ATTEMPTS AS YOU WISH",font = font_basic,bg=blue_bg)
-ts2.place(rely=0.25,relx=0.2,relwidth=0.6, relheight=0.1)
+cv2 = Canvas( root,width = 200,height = 200)
+cv2.create_image( 0, 0, image = img, anchor = "nw")
+stroke_text(cv2,500, 80, title,font_basic_s,font_basic)
+stroke_text(cv2,500, 150, 'TO LOG IN YOU MUST ENTER 3 VALID KEYWORDS\nYOU CAN MAKE AS MANY ATTEMPTS AS YOU WISH',font_basic_s,font_basic)
 
 est1 = StringVar()
 est2 = StringVar()
 est3 = StringVar()
-es1 = Entry(finish, text = 'WORD 1',bg=green_bg, textvariable=est1)
-es1.place(relx=0.1,rely=0.4, relwidth=0.45, relheight=0.1)
-es2 = Entry(finish, text = 'WORD 2',bg=green_bg, textvariable=est2)
-es2.place(relx=0.1,rely=0.55, relwidth=0.45, relheight=0.1)
-es3 = Entry(finish, text = 'WORD 3',bg=green_bg, textvariable=est3)
-es3.place(relx=0.1,rely=0.7, relwidth=0.45, relheight=0.1)
-b21 = Button(finish,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(est1,b21))
-b21.place(relx=0.6,rely=0.4, relwidth=0.2, relheight=0.1)
-b22 = Button(finish,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(est2,b22))
-b22.place(relx=0.6,rely=0.55,relwidth=0.2, relheight=0.1)
-b23 = Button(finish,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(est3,b23))
-b23.place(relx=0.6,rely=0.7,relwidth=0.2, relheight=0.1)
+es1 = Entry(cv2, text = 'WORD 1', textvariable=est1)
+cv2.create_window(300,250,window=es1,height=80, width=500)
+es2 = Entry(cv2, text = 'WORD 2', textvariable=est2)
+cv2.create_window(300,370,window=es2,height=80, width=500)
+es3 = Entry(cv2, text = 'WORD 3', textvariable=est3)
+cv2.create_window(300,490,window=es3,height=80, width=500)
+b21 = Button(cv2,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(est1,b21))
+cv2.create_window(700,250,window=b21,height=80, width=200)
+b22 = Button(cv2,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(est2,b22))
+cv2.create_window(700,370,window=b22,height=80, width=200)
+b23 = Button(cv2,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(est3,b23))
+cv2.create_window(700,490,window=b23,height=80, width=200)
 
 #CREATE A THIRD PAGE
-thr = Frame(root,bg=blue_bg, height=600, width=1000)
-imgt = Label(thr, image=img)
-imgt.place(x=0, y=0, relwidth=1, relheight=1)
-tt = Label(thr,text=title,font = font_basic,bg=blue_bg)
-tt.place(rely=0.05,relx=0.25,relwidth=0.55, relheight=0.1)
+cv3 = Canvas( root,width = 200,height = 200)
+cv3.create_image( 0, 0, image = img, anchor = "nw")
+stroke_text(cv3,500, 80, title,font_basic_s,font_basic)
 
-framet1 = LabelFrame(thr,bd=5,bg=blue_bg)
-framet1.place(relx=0.06,rely=0.2, relwidth=0.25, relheight=0.75)
+cv3.create_rectangle(320, 550, 75, 260, outline = 'black',width=3)
+bt1 = Button(cv3,text="Launch Virus",bg=green_bg,font = font_custom,command=lambda: switch_frame(cv3,cvl))
+cv3.create_window(200,200,window=bt1,height=80, width=250)
+cv3.create_text(200, 370, text="This option launches the virus directly in 3,125,673 with number of infected devices doubling every 13 hours."+
+"\n\nTotal collapse in global tech infrastructure in 3 -5 days", font="Arial 15 ", fill='white', width=230)
 
-bt1 = Button(framet1,text="Launch Virus",bg=green_bg,font = font_custom,command=lambda: switch_frame(thr,launch))
-bt1.place(relx=0,rely=0, relwidth=1, relheight=0.15)
-#t2 = tk.Label(frame1,text="This option launches the virus directly\nin 3,125,673 with number of \ninfected devices doubling every 13 hours."+
-#"\n"+"Total collapse in global tech infrastructure in 3 -5 days",font = "Verdana 9",justify=LEFT).place(relx=0.08,rely=0.4, relwidth=0.25, relheight=0.5)
+cv3.create_rectangle(375, 550, 620, 260, outline = 'black',width=3)
+bt2 = Button(cv3,text="Stall Virus",bg=green_bg,font = font_custom,command=lambda: switch_frame(cv3,cvs))
+cv3.create_window(500,200,window=bt2,height=80, width=250)
+cv3.create_text(500, 370, text="This option modifies the source code of the virus so that it cannot be activated for another 5 days."
++"This is to be exercised as a precaution during organizational disagreement", font="Arial 15 ", fill='white', width=230)
 
-framet2 = LabelFrame(thr,bd=5,bg=blue_bg)
-framet2.place(relx=0.4,rely=0.2, relwidth=0.25, relheight=0.75)
+cv3.create_rectangle(675, 550, 920, 260, outline = 'black',width=3)
+bt3 = Button(cv3,text="Destroy Virus",bg=green_bg,font = font_custom,command=lambda: switch_frame(cv3,cvd))
+cv3.create_window(800,200,window=bt3,height=80, width=250)
+cv3.create_text(800, 392, text="This option sends the virus source code to 39 of the most prominent Anti Virus companies. It publishes a patch for windows, Linux and Mac computers making them immune to the virus"
++"\n\nThis option requires MASTER ACCESS", font="Arial 15 ", fill='white', width=230)
 
-bt2 = Button(framet2,text="Stall Virus",bg=green_bg,font = font_custom,command=lambda: switch_frame(thr,stall))
-bt2.place(relx=0,rely=0,relwidth=1, relheight=0.15)
-#t2 = tk.Label(thr,text=title,font = font_basic).place(rely=0.3,relx=0.4)
-
-framet3 = LabelFrame(thr,bd=5,bg=blue_bg)
-framet3.place(relx=0.7,rely=0.2, relwidth=0.25, relheight=0.75)
-
-bt3 = Button(framet3,text="Destroy Virus",bg=green_bg,font = font_custom,command=lambda: switch_frame(thr,finish))
-bt3.place(relx=0,rely=0,relwidth=1, relheight=0.15)
-#tt = tk.Label(thr,text=title,font = font_basic).place(rely=0.06,relx=0.3)
 
 #CREATE A LAUNCH PAGE
-launch = Frame(root,bg=blue_bg, height=600, width=1000)
-imgla = Label(launch, image=img)
-imgla.place(x=0, y=0, relwidth=1, relheight=1)
-tl = Label(launch,text=title,font = font_basic,bg=blue_bg)
-tl.place(rely=0.05,relx=0.25,relwidth=0.55, relheight=0.1)
-tl2 = Label(launch,text="DESTRUCTION OF THE VIRUS REQUIRES THE USE OF THE FINAL TWO KEYWORDS",font = font_basic,bg=blue_bg)
-tl2.place(relx=0.0,rely=0.25,relwidth=1, relheight=0.1)
+cvl = Canvas( root,width = 200,height = 200)
+cvl.create_image( 0, 0, image = img, anchor = "nw")
+stroke_text(cvl,500, 80, title,font_basic_s,font_basic)
+
+#tl1 = Label(launch,text="VIRUS LAUNCHED!",font = font_basic,bg=blue_bg)
+stroke_text(cvl,500, 150, 'DESTRUCTION OF THE VIRUS REQUIRES THE USE OF THE FINAL TWO KEYWORDS',font_basic_s,font_basic)
 
 esl1 = StringVar()
 esl2 = StringVar()
 
-el1 = Entry(launch, text = 'WORD 1',bg=green_bg, textvariable=esl1)
-el1.place(relx=0.1,rely=0.4, relwidth=0.45, relheight=0.1)
-el2 = Entry(launch, text = 'WORD 2',bg=green_bg, textvariable=esl2)
-el2.place(relx=0.1,rely=0.55, relwidth=0.45, relheight=0.1)
+el1 = Entry(cvl, text = 'WORD 1',bg=green_bg, textvariable=esl1)
+cvl.create_window(400,250,window=el1,height=80, width=500)
+el2 = Entry(cvl, text = 'WORD 2',bg=green_bg, textvariable=esl2)
+cvl.create_window(400,350,window=el2,height=80, width=500)
 
-bl1 = Button(launch,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(esl1,bl1))
-bl1.place(relx=0.6,rely=0.4, relwidth=0.2, relheight=0.1)
-bl2 = Button(launch,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(esl2,bl2))
-bl2.place(relx=0.6,rely=0.55,relwidth=0.2, relheight=0.1)
+bl1 = Button(cvl,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(esl1,bl1))
+cvl.create_window(800,250,window=bl1,height=80, width=200)
+bl2 = Button(cvl,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(esl2,bl2))
+cvl.create_window(800,350,window=bl2,height=80, width=200)
 
 
 #CREATE A STALL PAGE
-stall = Frame(root,bg=blue_bg, height=600, width=1000)
-imgst = Label(stall, image=img)
-imgst.place(x=0, y=0, relwidth=1, relheight=1)
-tst = Label(stall,text=title,font = font_basic,bg=blue_bg)
-tst.place(rely=0.05,relx=0.25,relwidth=0.55, relheight=0.1)
-ts1 = Label(stall,text="VIRUS RELEASE SUSPENDED FOR 5 DAYS!",font = font_basic,bg=blue_bg)
-ts1.place(relx=0.1,rely=0.15,relwidth=0.85, relheight=0.1)
-ts2 = Label(stall,text="DESTRUCTION OF THE VIRUS REQUIRES THE USE OF THE FINAL TWO KEYWORDS",font = font_basic,bg=blue_bg)
-ts2.place(relx=0,rely=0.25,relwidth=1, relheight=0.1)
-es1 = Entry(stall, text = 'WORD 1',bg=green_bg).place(relx=0.1,rely=0.4, relwidth=0.45, relheight=0.1)
-es2 = Entry(stall, text = 'WORD 2',bg=green_bg).place(relx=0.1,rely=0.55, relwidth=0.45, relheight=0.1)
+cvs = Canvas( root,width = 200,height = 200)
+cvs.create_image( 0, 0, image = img, anchor = "nw")
+stroke_text(cvs,500, 80, title,font_basic_s,font_basic)
 
-bs1 = Button(stall,text="VALIDATE", command="",bg="gray",font = font_basic)
-bs1.place(relx=0.6,rely=0.4, relwidth=0.2, relheight=0.1)
-bs2 = Button(stall,text="VALIDATE", command="",bg="gray",font = font_basic)
-bs2.place(relx=0.6,rely=0.55,relwidth=0.2, relheight=0.1)
+#ts1 = Label(stall,text="VIRUS RELEASE SUSPENDED FOR 5 DAYS!",font = font_basic,bg=blue_bg)
+
+stroke_text(cvs,500, 150, 'STALLING OF THE VIRUS REQUIRES THE USE OF THE FINAL TWO KEYWORDS',font_basic_s,font_basic)
+
+es1 = Entry(cvs, text = 'WORD 1',bg=green_bg)
+cvs.create_window(400,250,window=es1,height=80, width=500)
+es2 = Entry(cvs, text = 'WORD 2',bg=green_bg)
+cvs.create_window(400,350,window=es2,height=80, width=500)
+
+bs1 = Button(cvs,text="VALIDATE", command="",bg="gray",font = font_basic)
+cvs.create_window(800,250,window=bs1,height=80, width=200)
+bs2 = Button(cvs,text="VALIDATE", command="",bg="gray",font = font_basic)
+cvs.create_window(800,350,window=bs2,height=80, width=200)
+
+#CREATE A DESTROY PAGE
+cvd = Canvas( root,width = 200,height = 200)
+cvd.create_image( 0, 0, image = img, anchor = "nw")
+stroke_text(cvd,500, 80, title,font_basic_s,font_basic)
+
+#td1 = Label(des,text="VIRUS DESTROYED!",font = font_title,bg=blue_bg)
+
+stroke_text(cvd,500, 150, 'DESTRUCTION OF THE VIRUS REQUIRES THE USE OF THE FINAL TWO KEYWORDS',font_basic_s,font_basic)
 
 
+ed1 = Entry(cvd, text = 'WORD 1',bg=green_bg)
+cvd.create_window(400,250,window=ed1,height=80, width=500)
+ed2 = Entry(cvd, text = 'WORD 2',bg=green_bg)
+cvd.create_window(400,350,window=ed2,height=80, width=500)
 
+bd1 = Button(cvd,text="VALIDATE", command="",bg="gray",font = font_basic)
+cvd.create_window(800,250,window=bd1,height=80, width=200)
+bd2 = Button(cvd,text="VALIDATE", command="",bg="gray",font = font_basic)
+cvd.create_window(800,350,window=bd2,height=80, width=200)
 
 
 
