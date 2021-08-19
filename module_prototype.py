@@ -6,9 +6,7 @@ root = Tk()
 keywords=["key1","key2","key3","key4","key5"]
 title="GLOBAL WATCHTOWER SV 21 INTERFACE"
 font_title="Verdana 30 bold"
-font_title_s="Verdana 31 bold"
 font_basic="Verdana 15 bold"
-font_basic_s="Verdana 16 bold"
 font_custom="Arial 20 bold"
 BOX_COLOR="#23838c"
 BUTTON_COLOR_AFTER="#7bffb9"
@@ -24,7 +22,6 @@ def team_check():
         switch_frame(cv1,cv2)
 
 def check(v,b):
-    print(v.get())
     if v.get() not in keywords:
         answers.append(v.get())
 
@@ -77,9 +74,9 @@ img=ImageTk.PhotoImage(Image.open(r"F:\Google Drive\GATEWAYS\Challenge\2021\Inte
 cv1.create_image( 0, 0, image = img, anchor = "nw")
 cv1.create_rectangle(220, 40, 770, 165,fill=BOX_COLOR,outline=BOX_COLOR)
 cv1.create_rectangle(380, 200, 620, 240,fill=BOX_COLOR,outline=BOX_COLOR)
-stroke_text(cv1,500, 100, 'GLOBAL WATCHTOWER \n    SV 21 INTERFACE',font_title_s,font_title)
 
-stroke_text(cv1,500, 220, 'ENTER TEAM NAME',font_basic_s,font_basic)
+cv1.create_text(500, 100, text='GLOBAL WATCHTOWER \n    SV 21 INTERFACE', font=font_title, fill=TEXT_COLOR)
+cv1.create_text(500, 220, text='ENTER TEAM NAME', font=font_basic, fill=TEXT_COLOR)
 
 
 tn = StringVar()
@@ -97,8 +94,9 @@ cv2 = Canvas( root,width = 200,height = 200)
 cv2.create_image( 0, 0, image = img, anchor = "nw")
 cv2.create_rectangle(250, 60, 750, 100,fill=BOX_COLOR,outline=BOX_COLOR)
 cv2.create_rectangle(200, 120, 800, 180,fill=BOX_COLOR,outline=BOX_COLOR)
-stroke_text(cv2,500, 80, title,font_basic_s,font_basic)
-stroke_text(cv2,500, 150, 'TO LOG IN YOU MUST ENTER 3 VALID KEYWORDS\nYOU CAN MAKE AS MANY ATTEMPTS AS YOU WISH',font_basic_s,font_basic)
+
+cv2.create_text(500, 80, text=title, font=font_basic, fill=TEXT_COLOR)
+cv2.create_text(500, 150, text='TO LOG IN YOU MUST ENTER 3 VALID KEYWORDS\nYOU CAN MAKE AS MANY ATTEMPTS AS YOU WISH', font=font_basic, fill=TEXT_COLOR)
 
 est1 = StringVar()
 est2 = StringVar()
@@ -120,21 +118,22 @@ cv2.create_window(700,490,window=b23,height=80, width=200)
 cv3 = Canvas( root,width = 200,height = 200)
 cv3.create_image( 0, 0, image = img, anchor = "nw")
 cv3.create_rectangle(250, 60, 750, 100,fill=BOX_COLOR,outline=BOX_COLOR)
-stroke_text(cv3,500, 80, title,font_basic_s,font_basic)
 
-cv3.create_rectangle(320, 550, 75, 260, outline = 'black',width=3)
+cv3.create_text(500, 80, text=title, font=font_basic, fill=TEXT_COLOR)
+
+cv3.create_rectangle(320, 550, 75, 260, fill = BOX_COLOR,outline = BOX_COLOR)
 bt1 = Button(cv3,text="Launch Virus",bg=BUTTON_COLOR_AFTER,font = font_custom,command=lambda: switch_frame(cv3,cvl))
 cv3.create_window(200,200,window=bt1,height=80, width=250)
 cv3.create_text(200, 370, text="This option launches the virus directly in 3,125,673 with number of infected devices doubling every 13 hours."+
 "\n\nTotal collapse in global tech infrastructure in 3 -5 days", font="Arial 15 ", fill='white', width=230)
 
-cv3.create_rectangle(375, 550, 620, 260, outline = 'black',width=3)
+cv3.create_rectangle(375, 550, 620, 260, fill = BOX_COLOR,outline = BOX_COLOR)
 bt2 = Button(cv3,text="Stall Virus",bg=BUTTON_COLOR_AFTER,font = font_custom,command=lambda: switch_frame(cv3,cvs))
 cv3.create_window(500,200,window=bt2,height=80, width=250)
 cv3.create_text(500, 370, text="This option modifies the source code of the virus so that it cannot be activated for another 5 days."
 +"This is to be exercised as a precaution during organizational disagreement", font="Arial 15 ", fill='white', width=230)
 
-cv3.create_rectangle(675, 550, 920, 260, outline = 'black',width=3)
+cv3.create_rectangle(675, 550, 920, 260, fill = BOX_COLOR,outline = BOX_COLOR)
 bt3 = Button(cv3,text="Destroy Virus",bg=BUTTON_COLOR_AFTER,font = font_custom,command=lambda: switch_frame(cv3,cvd))
 cv3.create_window(800,200,window=bt3,height=80, width=250)
 cv3.create_text(800, 392, text="This option sends the virus source code to 39 of the most prominent Anti Virus companies. It publishes a patch for windows, Linux and Mac computers making them immune to the virus"
@@ -145,11 +144,12 @@ cv3.create_text(800, 392, text="This option sends the virus source code to 39 of
 cvl = Canvas( root,width = 200,height = 200)
 cvl.create_image( 0, 0, image = img, anchor = "nw")
 cvl.create_rectangle(250, 60, 750, 100,fill=BOX_COLOR,outline=BOX_COLOR)
-stroke_text(cvl,500, 80, title,font_basic_s,font_basic)
+cvl.create_text(500, 80, text=title, font=font_basic, fill=TEXT_COLOR)
 
 #cvl.create_text(500, 500, text="VIRUS LAUNCHED!", font=font_title, fill=TEXT_COLOR)
-cvl.create_rectangle(20, 130, 980, 170, fill=BOX_COLOR, outline=BOX_COLOR)
-stroke_text(cvl,500, 150, 'DESTRUCTION OF THE VIRUS REQUIRES THE USE OF THE FINAL TWO KEYWORDS',font_basic_s,font_basic)
+cvl.create_rectangle(20, 130, 980, 170,fill=BOX_COLOR,outline=BOX_COLOR)
+cvl.create_text(500, 150, text='DESTRUCTION OF THE VIRUS REQUIRES THE USE OF THE FINAL TWO KEYWORDS', font=font_basic, fill=TEXT_COLOR)
+
 
 esl1 = StringVar()
 esl2 = StringVar()
@@ -169,10 +169,11 @@ cvl.create_window(800,350,window=bl2,height=80, width=200)
 cvs = Canvas( root,width = 200,height = 200)
 cvs.create_image( 0, 0, image = img, anchor = "nw")
 cvs.create_rectangle(250, 60, 750, 100,fill=BOX_COLOR,outline=BOX_COLOR)
-stroke_text(cvs,500, 80, title,font_basic_s,font_basic)
+cvs.create_text(500, 80, text=title, font=font_basic, fill=TEXT_COLOR)
+
 #cvs.create_text(500, 500, text="VIRUS RELEASE SUSPENDED FOR 5 DAYS!", font=font_title, fill=TEXT_COLOR)
 cvs.create_rectangle(40, 130, 960, 170,fill=BOX_COLOR,outline=BOX_COLOR)
-stroke_text(cvs,500, 150, 'STALLING OF THE VIRUS REQUIRES THE USE OF THE FINAL TWO KEYWORDS',font_basic_s,font_basic)
+cvs.create_text(500, 150, text='STALLING OF THE VIRUS REQUIRES THE USE OF THE FINAL TWO KEYWORDS', font=font_basic, fill=TEXT_COLOR)
 
 ess1 = StringVar()
 ess2 = StringVar()
@@ -191,10 +192,11 @@ cvs.create_window(800,350,window=bs2,height=80, width=200)
 cvd = Canvas( root,width = 200,height = 200)
 cvd.create_image( 0, 0, image = img, anchor = "nw")
 cvd.create_rectangle(250, 60, 750, 100,fill=BOX_COLOR,outline=BOX_COLOR)
-stroke_text(cvd,500, 80, title,font_basic_s,font_basic)
+cvd.create_text(500, 80, text=title, font=font_basic, fill=TEXT_COLOR)
+
 #cvd.create_text(500, 500, text="VIRUS DESTROYED!", font=font_title, fill=TEXT_COLOR)
 cvd.create_rectangle(30, 130, 970, 170,fill=BOX_COLOR,outline=BOX_COLOR)
-stroke_text(cvd,500, 150, 'DESTRUCTION OF THE VIRUS REQUIRES THE USE OF THE FINAL TWO KEYWORDS',font_basic_s,font_basic)
+cvd.create_text(500, 150, text='DESTRUCTION OF THE VIRUS REQUIRES THE USE OF THE FINAL TWO KEYWORDS', font=font_basic, fill=TEXT_COLOR)
 
 esd1 = StringVar()
 esd2 = StringVar()
