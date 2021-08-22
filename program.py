@@ -6,14 +6,9 @@ root = Tk()
 root.geometry("1000x600")
 root.resizable(True,True)
 root.title("DASHBOARD")
-start = Frame(root,bg='#4472C4').place(relx=0, rely=0, relwidth=1, relheight=1)
 
-fr = tk.Label(start,text="GLOBAL WATCHTOWER \n SV 21 INTERFACE",font = "Verdana 30 bold",bg="#4472C4").place(rely=0.1,relx=0.25)
-
-e1 = Entry(start, text = 'ENTER TEAM NAME',bg="#70AD47").place(relx=0.1,rely=0.5, relwidth=0.8, relheight=0.15)
 
 def second():
-    
     sec= Frame(root,bg='#4472C4').place(relx=0, rely=0, relwidth=1, relheight=1)
     tt = tk.Label(sec,text="GLOBAL WATCHTOWER SV 21 INTERFACE",font = "Verdana 15 bold",bg="#4472C4").place(rely=0.06,relx=0.3)
     t2 = tk.Label(sec,text="TO LOG IN YOU MUST ENTER 3 VALID KEYWORDS\nYOU CAN MAKE AS MANY ATTEMPTS AS YOU WISH",font = "Verdana 15 bold",bg="#4472C4").place(rely=0.25,relx=0.25)
@@ -65,10 +60,12 @@ def stall():
     b2 = Button(sec,text="VALIDATE", command="",bg="gray",font = "Verdana 15 bold").place(relx=0.6,rely=0.55,relwidth=0.2, relheight=0.1)
 
     
-    
+def raise_frame(frame):
+    frame.tkraise()
 
-
-
+start = Frame(root,bg='#4472C4').place(relx=0, rely=0, relwidth=1, relheight=1)
+fr = tk.Label(start,text="GLOBAL WATCHTOWER \n SV 21 INTERFACE",font = "Verdana 30 bold",bg="#4472C4").place(rely=0.1,relx=0.25)
+e1 = Entry(start, text = 'ENTER TEAM NAME',bg="#70AD47").place(relx=0.1,rely=0.5, relwidth=0.8, relheight=0.15)
 button = Button(start,text="Enter", command=second,bg="gray",font = "Verdana 15 bold")
 button.place(rely=0.65,relx=0.1, relwidth=0.8, relheight=0.15)
 

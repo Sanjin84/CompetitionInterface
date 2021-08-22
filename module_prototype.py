@@ -23,7 +23,6 @@ def team_check():
         switch_frame(cv1,cv2)
 
 def check(v,b):
-    
     if v.get() not in keywords:
         answers.append(v.get())
 
@@ -88,7 +87,7 @@ root.title("DASHBOARD")
 #CREATE A START PAGE
 cv1 = Canvas( root,width = 1000,height = 600)
 
-img=ImageTk.PhotoImage(Image.open("background.png"))
+img=ImageTk.PhotoImage(Image.open(r"F:\Google Drive\GATEWAYS\Challenge\2021\InterfaceCode\CompetitionInterface\background.png"))
 cv1.create_image( 0, 0, image = img, anchor = "nw")
 cv1.create_rectangle(220, 40, 770, 165,fill=BOX_COLOR,outline=BOX_COLOR)
 cv1.create_rectangle(380, 200, 620, 240,fill=BOX_COLOR,outline=BOX_COLOR)
@@ -98,7 +97,7 @@ cv1.create_text(500, 220, text='ENTER TEAM NAME', font=font_basic, fill=TEXT_COL
 
 
 tn = StringVar()
-e1 = Entry(cv1, text = 'ENTER TEAM NAME', textvariable=tn,bg=BOX_COLOR)
+e1 = Entry(cv1, textvariable=tn,bg=BOX_COLOR)
 cv1.create_window(500,300,window=e1,height=80, width=500)
 
 button = Button(cv1,text="Enter",bg="gray",font = font_basic,command=team_check)
@@ -107,7 +106,7 @@ cv1.create_window(500,400,window=button,height=50, width=400)
 cv1.pack(fill = "both", expand = True)
 
 
-#CREATE A SECOND PAGE
+#CREATE A SECOND PAGE (ENTER 3 KEYWORDS)
 cv2 = Canvas( root,width = 200,height = 200)
 cv2.create_image( 0, 0, image = img, anchor = "nw")
 cv2.create_rectangle(250, 60, 750, 100,fill=BOX_COLOR,outline=BOX_COLOR)
