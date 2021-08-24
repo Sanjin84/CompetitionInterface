@@ -10,10 +10,9 @@ font_title="Verdana 30 bold"
 font_basic="Verdana 15 bold"
 font_custom="Arial 20 bold"
 BOX_COLOR="#23838c"
+BUTTON_COLOR="gray"
 BUTTON_COLOR_AFTER="#7bffb9"
 TEXT_COLOR = 'white'
-greenc="#7bffb9"
-bluec="#23838c"
 score=0
 once=False
 answers=[]
@@ -33,7 +32,6 @@ def check(v,b):
         answers.append(v.get())
         keywords.remove(v.get())
         score+=10
-        print(keywords)
         b.config(text="VALIDATED",bg=BUTTON_COLOR_AFTER)
     if len(keywords) == 2 and once == False:
         once=True
@@ -42,6 +40,9 @@ def check(v,b):
         cvl.create_text(500, 500, text="VIRUS LAUNCHED!", font=font_title, fill=TEXT_COLOR)
         cvs.create_text(500, 500, text="VIRUS RELEASE SUSPENDED FOR 5 DAYS!", font=font_title, fill=TEXT_COLOR)
         cvd.create_text(500, 500, text="VIRUS DESTROYED!", font=font_title, fill=TEXT_COLOR)
+        blb["state"] = DISABLED
+        bsb["state"] = DISABLED
+        bdb["state"] = DISABLED
         
 def back(current,menu):
     switch_frame(current,menu)
@@ -58,13 +59,17 @@ def switch_frame (old,new):
 
 def on_closing():
     
-    tf = open('info.txt',"a")
+    with open('info.txt', 'w') as tf:
+        tf.write("\n"+tn.get()+" - [")
+        for i in answers:
+            tf.write(i+", ")
+        tf.write("]")
+        tf.close()
+
     
-    tf.write("\n"+tn.get()+" - [")
-    for i in answers:
-        tf.write(i+", ")
-    tf.write("]")
-    tf.close()
+    with open('score.txt', 'w') as tf2:
+        tf2.write("\n"+tn.get()+"-"+str(score))
+        tf2.close()
 
     key = b'DqbtoOEMKXpTsYjm9FFRJOwOXEfUPn5vmUvlOnsx2MY='
     fernet = Fernet(key)
@@ -87,7 +92,8 @@ root.title("DASHBOARD")
 #CREATE A START PAGE
 cv1 = Canvas( root,width = 1000,height = 600)
 
-img=ImageTk.PhotoImage(Image.open(r"F:\Google Drive\GATEWAYS\Challenge\2021\InterfaceCode\CompetitionInterface\background.png"))
+#img=ImageTk.PhotoImage(Image.open(r"F:\Google Drive\GATEWAYS\Challenge\2021\InterfaceCode\CompetitionInterface\background.png"))
+img=ImageTk.PhotoImage(Image.open("background.png"))
 cv1.create_image( 0, 0, image = img, anchor = "nw")
 cv1.create_rectangle(220, 40, 770, 165,fill=BOX_COLOR,outline=BOX_COLOR)
 cv1.create_rectangle(380, 200, 620, 240,fill=BOX_COLOR,outline=BOX_COLOR)
@@ -100,7 +106,7 @@ tn = StringVar()
 e1 = Entry(cv1, textvariable=tn,bg=BOX_COLOR)
 cv1.create_window(500,300,window=e1,height=80, width=500)
 
-button = Button(cv1,text="Enter",bg="gray",font = font_basic,command=team_check)
+button = Button(cv1,text="Enter",bg=BUTTON_COLOR,font = font_basic,command=team_check)
 button.place(rely=0.65,relx=0.1, relwidth=0.8, relheight=0.15)
 cv1.create_window(500,400,window=button,height=50, width=400)
 cv1.pack(fill = "both", expand = True)
@@ -124,11 +130,11 @@ es2 = Entry(cv2, text = 'WORD 2',bg=BOX_COLOR, textvariable=est2)
 cv2.create_window(300,370,window=es2,height=80, width=500)
 es3 = Entry(cv2, text = 'WORD 3',bg=BOX_COLOR, textvariable=est3)
 cv2.create_window(300,490,window=es3,height=80, width=500)
-b21 = Button(cv2,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(est1,b21))
+b21 = Button(cv2,text="VALIDATE",bg=BUTTON_COLOR,font = font_basic,command=lambda: check(est1,b21))
 cv2.create_window(700,250,window=b21,height=80, width=200)
-b22 = Button(cv2,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(est2,b22))
+b22 = Button(cv2,text="VALIDATE",bg=BUTTON_COLOR,font = font_basic,command=lambda: check(est2,b22))
 cv2.create_window(700,370,window=b22,height=80, width=200)
-b23 = Button(cv2,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(est3,b23))
+b23 = Button(cv2,text="VALIDATE",bg=BUTTON_COLOR,font = font_basic,command=lambda: check(est3,b23))
 cv2.create_window(700,490,window=b23,height=80, width=200)
 
 #CREATE A MENU PAGE
@@ -176,12 +182,12 @@ cvl.create_window(400,250,window=el1,height=80, width=500)
 el2 = Entry(cvl, text = 'WORD 2',bg=BOX_COLOR, textvariable=esl2)
 cvl.create_window(400,350,window=el2,height=80, width=500)
 
-bl1 = Button(cvl,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(esl1,bl1))
+bl1 = Button(cvl,text="VALIDATE",bg=BUTTON_COLOR,font = font_basic,command=lambda: check(esl1,bl1))
 cvl.create_window(800,250,window=bl1,height=80, width=200)
-bl2 = Button(cvl,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(esl2,bl2))
+bl2 = Button(cvl,text="VALIDATE",bg=BUTTON_COLOR,font = font_basic,command=lambda: check(esl2,bl2))
 cvl.create_window(800,350,window=bl2,height=80, width=200)
 
-blb = Button(cvl,text="< BACK",bg="gray",font = font_basic,command=lambda: back(cvl,cvm))
+blb = Button(cvl,text="<BACK",bg=BUTTON_COLOR,font = font_basic,command=lambda: back(cvl,cvm))
 cvl.create_window(70,50,window=blb,height=40, width=90)
 
 
@@ -193,24 +199,24 @@ cvs.create_text(500, 80, text=title, font=font_basic, fill=TEXT_COLOR)
 
 #cvs.create_text(500, 500, text="VIRUS RELEASE SUSPENDED FOR 5 DAYS!", font=font_title, fill=TEXT_COLOR)
 cvs.create_rectangle(300, 130, 700, 170,fill=BOX_COLOR,outline=BOX_COLOR)
-cvs.create_rectangle(120, 230, 880, 270,fill=BOX_COLOR,outline=BOX_COLOR)
+cvs.create_rectangle(120, 180, 880, 220,fill=BOX_COLOR,outline=BOX_COLOR)
 cvs.create_text(500, 150, text='VIRUS STALLED FOR 5 DAYS', font=font_basic, fill=TEXT_COLOR)
-cvs.create_text(500, 250, text='ENTER TWO REMAINING KEYWORDS TO DESTROY THE VIRUS', font=font_basic, fill=TEXT_COLOR)
+cvs.create_text(500, 200, text='ENTER TWO REMAINING KEYWORDS TO DESTROY THE VIRUS', font=font_basic, fill=TEXT_COLOR)
 
 ess1 = StringVar()
 ess2 = StringVar()
 
 es1 = Entry(cvs, text = 'WORD 1',bg=BOX_COLOR, textvariable=ess1)
-cvs.create_window(400,350,window=es1,height=80, width=500)
+cvs.create_window(400,300,window=es1,height=80, width=500)
 es2 = Entry(cvs, text = 'WORD 2',bg=BOX_COLOR, textvariable=ess2)
-cvs.create_window(400,450,window=es2,height=80, width=500)
+cvs.create_window(400,400,window=es2,height=80, width=500)
 
-bs1 = Button(cvs,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(ess1,bs1))
-cvs.create_window(800,350,window=bs1,height=80, width=200)
-bs2 = Button(cvs,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(ess2,bs2))
-cvs.create_window(800,450,window=bs2,height=80, width=200)
+bs1 = Button(cvs,text="VALIDATE",bg=BUTTON_COLOR,font = font_basic,command=lambda: check(ess1,bs1))
+cvs.create_window(800,300,window=bs1,height=80, width=200)
+bs2 = Button(cvs,text="VALIDATE",bg=BUTTON_COLOR,font = font_basic,command=lambda: check(ess2,bs2))
+cvs.create_window(800,400,window=bs2,height=80, width=200)
 
-bsb = Button(cvs,text="< BACK",bg="gray",font = font_basic,command=lambda: back(cvs,cvm))
+bsb = Button(cvs,text="<BACK",bg=BUTTON_COLOR,font = font_basic,command=lambda: back(cvs,cvm))
 cvs.create_window(70,50,window=bsb,height=40, width=90)
 
 #CREATE A DESTROY PAGE
@@ -231,12 +237,12 @@ cvd.create_window(400,250,window=ed1,height=80, width=500)
 ed2 = Entry(cvd, text = 'WORD 2',bg=BOX_COLOR, textvariable=esd2)
 cvd.create_window(400,350,window=ed2,height=80, width=500)
 
-bd1 = Button(cvd,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(esd1,bd1))
+bd1 = Button(cvd,text="VALIDATE",bg=BUTTON_COLOR,font = font_basic,command=lambda: check(esd1,bd1))
 cvd.create_window(800,250,window=bd1,height=80, width=200)
-bd2 = Button(cvd,text="VALIDATE",bg="gray",font = font_basic,command=lambda: check(esd2,bd2))
+bd2 = Button(cvd,text="VALIDATE",bg=BUTTON_COLOR,font = font_basic,command=lambda: check(esd2,bd2))
 cvd.create_window(800,350,window=bd2,height=80, width=200)
 
-bdb = Button(cvd,text="< BACK",bg="gray",font = font_basic,command=lambda: back(cvd,cvm))
+bdb = Button(cvd,text="<BACK",bg=BUTTON_COLOR,font = font_basic,command=lambda: back(cvd,cvm))
 cvd.create_window(70,50,window=bdb,height=40, width=90)
 
 root.protocol("WM_DELETE_WINDOW", on_closing)
