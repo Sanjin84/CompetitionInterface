@@ -58,30 +58,24 @@ def switch_frame (old,new):
        
 
 def on_closing():
+    vv = "\n"+tn.get()+" - ["
+    v1=""
+    for i in answers:
+        v1 += i+", "
+    v2 = "]"
+    vf = vv + v1+ v2
     
-    with open('info.txt', 'w') as tf:
-        tf.write("\n"+tn.get()+" - [")
-        for i in answers:
-            tf.write(i+", ")
-        tf.write("]")
-        tf.close()
-
-    
-    with open('score.txt', 'w') as tf2:
+    with open('score.txt', 'a+') as tf2:
         tf2.write("\n"+tn.get()+"-"+str(score))
         tf2.close()
-
     key = b'DqbtoOEMKXpTsYjm9FFRJOwOXEfUPn5vmUvlOnsx2MY='
     fernet = Fernet(key)
-    with open('info.txt', 'rb') as file:
-        original = file.read()
 
-    encrypted = fernet.encrypt(original)
-  
+    encrypted = fernet.encrypt(vf.encode())
 
-    with open('info.txt', 'wb') as encrypted_file:
-        encrypted_file.write(encrypted)
-
+    with open('info.txt', 'a+') as encrypted_file:
+        encrypted_file.write(encrypted.decode()+"\n")
+    
 
     root.destroy()
 
@@ -92,7 +86,6 @@ root.title("DASHBOARD")
 #CREATE A START PAGE
 cv1 = Canvas( root,width = 1000,height = 600)
 
-#img=ImageTk.PhotoImage(Image.open(r"F:\Google Drive\GATEWAYS\Challenge\2021\InterfaceCode\CompetitionInterface\background.png"))
 img=ImageTk.PhotoImage(Image.open("background.png"))
 cv1.create_image( 0, 0, image = img, anchor = "nw")
 cv1.create_rectangle(220, 40, 770, 165,fill=BOX_COLOR,outline=BOX_COLOR)

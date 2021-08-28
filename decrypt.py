@@ -8,15 +8,19 @@ def check():
 
     fernet = Fernet(key)
     try:
-        with open(filename, 'rb') as enc_file:
+        with open(filename, 'r') as enc_file:
             encrypted = enc_file.read()
-        
-        decrypted = fernet.decrypt(encrypted)
-        
-        text_box = Text(root,height=12,width=40)
+            val = encrypted.split('\n')
+            val.pop()
+        text_box = Text(root,height=18,width=80)
         text_box.pack(expand=True)
-        text_box.insert('end', decrypted)
+        
+        for i in val:
+            i= i.encode()
+            decrypted = fernet.decrypt(i).decode()
+            text_box.insert('end', decrypted)
         text_box.config(state='disabled')
+            
     except:
         text_box = Text(root,height=12,width=40)
         text_box.pack(expand=True)
