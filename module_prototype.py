@@ -21,6 +21,9 @@ def team_check():
     if len(tn.get()):
         switch_frame(cv1,cv2)
 
+def score_check(value):
+    print("")
+
 def check(v,b):
     if v.get() not in keywords:
         answers.append(v.get())
