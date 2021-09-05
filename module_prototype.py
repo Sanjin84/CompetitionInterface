@@ -21,8 +21,14 @@ def team_check():
     if len(tn.get()):
         switch_frame(cv1,cv2)
 
-def score_check(value):
-    print("")
+def score_check(remaining_keywords): 
+    if len(remaining_keywords) == 5: return 0
+    if len(remaining_keywords) == 4: return 15
+    if len(remaining_keywords) == 3: return 22
+    if len(remaining_keywords) == 2: return 30
+    if len(remaining_keywords) == 1: return 35
+    if len(remaining_keywords) == 0: return 40
+    
 
 def check(v,b):
     if v.get() not in keywords:
@@ -34,8 +40,8 @@ def check(v,b):
     if v.get() in keywords:
         answers.append(v.get())
         keywords.remove(v.get())
-        score+=10
         b.config(text="VALIDATED",bg=BUTTON_COLOR_AFTER)
+        score = score_check(keywords)
     if len(keywords) == 2 and once == False:
         once=True
         switch_frame(cv2,cvm)
